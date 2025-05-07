@@ -1,0 +1,25 @@
+# MySQL data
+docker/mysql/data/
+
+# Docker関連
+docker-compose.override.yml
+
+# Laravel関連
+/src/vendor
+/src/node_modules
+/src/storage
+/src/public/storage
+/src/public/hot
+/src/public/build
+
+/src/.env*
+/src/.phpunit.result.cache
+/src/.phpunit.cache
+
+/src/storage/*.log
+/src/storage/*.key
+/src/storage/framework/cache
+/src/storage/framework/sessions
+/src/storage/framework/views
+
+/src/.vscode
