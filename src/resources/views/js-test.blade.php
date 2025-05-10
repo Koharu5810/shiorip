@@ -61,6 +61,36 @@
     <div id="q1"></div>
 
 
+    <h3 style="margin-top: 50px">条件分岐</h3>
+    {{-- if文 --}}
+    <div id="ifText"></div>
+    <div id="quantityText"></div>
+
+    {{-- 条件分岐問題 --}}
+    <div><strong>問題回答</strong></div>
+    <div id="q3"></div>
+    <div id="q4-1"></div>
+    <div id="q4-2"></div>
+    <div id="q4-3"></div>
+    <div id="q5"></div>
+    <div id="q6"></div>
+
+
+    <h3 style="margin-top: 50px">配列</h3>
+    {{-- if文 --}}
+    <div id="arrayText"></div>
+    <div id="arrayText2"></div>
+    <div id="arrayText3"></div>
+    <div id="arrayText4"></div>
+    <div id="arrayText5"></div>
+    <div id="arrayText6"></div>
+
+    <div id="array2Text"></div>
+    <div id="array3Text"></div>
+
+
+
+
     <script src="/js/test.js"></script>
 </body>
 </html>
