@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// JSテストページ表示用
+Route::get('/js-test', function () {
+    return view('js-test');
 });
