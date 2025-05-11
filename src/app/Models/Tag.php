@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Tag extends Model
 {
     use HasFactory;
+
+    public function spots()
+    {
+        return $this->belongsToMany(Spot::class, 'spot_tag');
+    }
+
 }
