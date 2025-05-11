@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('tags', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->unsignedInteger('usage_count')->default(0)->after('name');  // 人気順などをソートするためにタグ使用回数をカウントするカラム
+            $table->string('tag_name')->unique();
+            $table->unsignedInteger('usage_count')->default(0)->after('tag_name');  // 人気順などをソートするためにタグ使用回数をカウントするカラム
             $table->timestamps();
         });
     }

@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('prefectures', function (Blueprint $table) {
+        Schema::create('areas', function (Blueprint $table) {
             $table->id();
-            $table->string('prefecture_name');     // 都道府県
-            $table->string('region');   // 地方
+            $table->foreignId('prefecture_id')->constrained()->cascadeOnDelete();
+            $table->string('area_name');
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('prefectures');
+        Schema::dropIfExists('areas');
     }
 };

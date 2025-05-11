@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('spots', function (Blueprint $table) {
             $table->id();
             $table->string('name', 150);                    // 観光地名
-            $table->string('area', 100);                    // 所在エリア
             $table->string('category', 100);                // カテゴリ
             $table->text('description');                    // 説明文
             $table->integer('duration_minutes');            // 所要時間（分）
