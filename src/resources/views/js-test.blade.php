@@ -89,6 +89,23 @@
     <div id="array3Text"></div>
 
 
+    <h3 style="margin-top: 50px">繰り返し</h3>
+    {{-- for文 --}}
+    <div id="roup1"></div>
+    <div id="roup2"></div>
+    <div id="roup3"></div>
+
+
+    <h3 style="margin-top: 50px">文字列</h3>
+    {{-- 文字列 --}}
+    <div id="text1" style="white-space: pre;"></div>
+    <div id="text2"></div>
+
+
+    <h3 style="margin-top: 50px">スケジュール</h3>
+    <div id="schedule"></div>
+
+
 
 
     <script src="/js/test.js"></script>
