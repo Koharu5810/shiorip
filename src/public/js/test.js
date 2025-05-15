@@ -547,3 +547,119 @@ console.log(json);
   };
 
   console.log(school.createSentense());
+
+
+
+// Dateオブジェクト
+const dt = new Date();
+console.log(dt);
+
+const dt2 = new Date("2020/12/01 12:34:56");
+console.log(dt2);
+
+const dt3 = new Date(2020, 0, 15, 22, 30, 30);
+console.log(dt3);
+
+const dt4 = new Date();
+const year = dt4.getFullYear();
+console.log(year);
+
+// day.jsを使用したインスタンス
+const year2 = dayjs().year();
+console.log(year);
+
+const day = dayjs().day();
+const dayT = ["日", "月", "火", "水", "木", "金", "土"];
+console.log(dayT[day]);
+
+const month = dayjs().format("MM月");
+console.log(month);
+
+const day2 = dayjs().format("dddd");
+console.log(day2);
+
+const today = dayjs().format("YYYY年MM月DD日 dddd HH:mm:ss");
+console.log(today);
+
+// function clock(){
+//     const now = dayjs().format('HH:mm:ss');
+//     console.log(now);
+//   }
+//   setInterval(clock,1000);
+
+
+// 関数
+
+function vegetable(name, price, func) {
+    const pit = func(price); //  priceIncludingTax(price)の実行
+    console.log(name + 'の税込価格は' + pit + 'です');
+}
+// 関数式
+const priceIncludingTax = function (price) { // 税込み価格の計算
+    const tax = 1.1;
+    return Math.floor(price * tax);//Math.floor小数点を切り捨てて整数にする
+}
+vegetable('苺', 200, priceIncludingTax); // priceIncludingTaxがコールバック関数
+
+
+const items = [
+    {
+        name: "水",
+        price: 100,
+    },
+    {
+        name: "リンゴジュース",
+        price: 130,
+    },
+    {
+        name: "コーヒー",
+        price: 150,
+    },
+    {
+        name: "モンスター",
+        price: 200,
+    },
+    {
+        name: "レッドブル(大)",
+        price: 250,
+    },
+];
+
+const buy = function (pay, itemName) {
+    const findItem = items.find((i) => i.name == itemName);
+    if (!findItem) return console.log("その商品は存在しません。");
+    if (pay < findItem.price) return console.log("お金が足りません。");
+    const change = pay - findItem.price;
+    console.log(findItem.name + "をお買い上げありがとうございます。");
+    if (change <= 0) {
+        return console.log("お釣りはありません。");
+    }
+    console.log("お釣りは" + change + "円になります。");
+};
+
+
+// 問題回答
+function advice(name, point) {
+    if (point > 30) return console.log(name + "君もう少し頑張りましょう");
+    if (31 < point < 70) return console.log(name + "君普通です");
+    if (point < 71) return console.log(name + "君よくできました");
+}
+console.log(advice("A", 80));
+console.log(advice("B", 15));
+console.log(advice("C", 50));
+
+// 問題正答
+function advice(name, test) {
+    if (test >= 70 && test <= 100) {
+        return `${name}君良くできました`;
+    } else if (test >= 30 && test < 70) {
+        return `${name}君普通です`;
+    } else if (test >= 0 && test < 30) {
+        return `${name}君もう少し頑張りましょう`;
+    } else {
+        return `正しい数字を入力してください`;
+    }
+}
+console.log(advice("A", 80));
+console.log(advice("B", 15));
+console.log(advice("C", 50));
