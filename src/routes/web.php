@@ -17,3 +17,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/js-test', function () {
     return view('js-test');
 });
+Route::get('/practice', fn () => view('practice'));

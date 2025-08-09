@@ -663,3 +663,30 @@ function advice(name, test) {
 console.log(advice("A", 80));
 console.log(advice("B", 15));
 console.log(advice("C", 50));
+
+
+// イベント
+// document.addEventListener("DOMContentLoaded", function () {
+//     alert("ページが読み込まれました");
+// });
+
+// const button = document.querySelector("button");
+// button.addEventListener("click", function () {
+//     alert("クリックされました");
+// });
+
+
+// 問題回答
+// const button = document.querySelector("button");
+// button.addEventListener("click", function () {
+//     const result = prompt("クラス名はredです");
+//     console.log(result);
+// });
+
+// 問題正答
+const button = document.querySelector("button");
+button.addEventListener("click", function () {
+    const className = prompt("クラス名を入力してください");
+    document.getElementsByClassName(className)[0].style.color = "red";
+    document.getElementsByClassName(className)[0].style.color = "blue";
+});

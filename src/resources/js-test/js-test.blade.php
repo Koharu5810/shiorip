@@ -12,7 +12,7 @@
 <body>
     <h1>JavaScriptテスト</h1>
 
-    <button onclick="sayHello()">クリックして挨拶</button>
+    {{-- <button onclick="sayHello()">クリックして挨拶</button> --}}
 
     <h3 style="margin-top: 50px;">変数と定数</h3>
     <div id="letText"></div>
@@ -108,8 +108,16 @@
     <div id="schedule"></div>
 
 
+    <h3 style="margin-top: 50px">イベント</h3>
+    {{-- click --}}
+    {{-- <button>ボタン</button> --}}
+
+    <h1 class="red">クラス名は「red」です</h1>
+    <h2 class="blue">クラス名は「blue」です</h2>
+    <button>ボタン</button>
 
 
-    <script src="/js/test.js"></script>
+
+    <script src="./js-test.js"></script>
 </body>
 </html>
