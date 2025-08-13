@@ -15,6 +15,6 @@ use Illuminate\Support\Facades\Route;
 
 // JSテストページ表示用
 Route::get('/js-test', function () {
-    return view('js-test');
+    return view('js-test.js-test');
 });
-Route::get('/practice', fn () => view('practice'));
+Route::get('/practice', fn () => view('js-test.practice'));

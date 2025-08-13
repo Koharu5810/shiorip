@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="jp">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    <script src="./practice.js"></script>
+    <script src="{{ asset('js/js-test/practice.js') }}"></script>
 </body>
 </html>
 
