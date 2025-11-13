@@ -1,0 +1,247 @@
+import './bootstrap';
+
+console.log("app.ts loaded");
+
+
+// 東京の天気
+async function getWeatherTokyo() {
+    try {
+        const url =
+            "https://api.open-meteo.com/v1/forecast?latitude=35.6895&longitude=139.6917&current_weather=true";
+        // ↑東京の気温。latitude：緯度、longitude：経度
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        console.log("天気API結果:", data);
+
+        const div = document.querySelector<HTMLDivElement>("#weather-result");
+        if (div) {
+            div.textContent = `　東京: ${data.current_weather.temperature}℃`;
+        }
+    } catch (error) {
+        console.log("天気APIエラー:", error);
+    }
+}
+
+// Open-Meteo の Reverse Geocoding APIを利用し現在地名取得
+async function getPlaceName(lat: number, lon: number):Promise<string> {
+    const url = `https://geocoding-api.open-meteo.com/v1/reverse?latitude=${lat}&longitude=${lon}&language=ja`;
+
+    const response = await fetch(url);
+    const data = await response.json();
+
+    // 結果が存在すれば表示
+    if (data.results && data.results.length > 0) {
+        const place = data.results[0];
+        return `${place.admin1} ${place.name}`;
+    }
+
+    return "不明な場所";
+}
+
+// 現在地の天気
+async function getWeatherByLocation(lat: number, lon: number) {
+    try {
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
+
+        const response = await fetch(url);
+        const data = await response.json();
+
+        console.log("現在地の天気API結果:", data);
+
+        const placeName = await getPlaceName(lat, lon);
+
+        const result = document.querySelector<HTMLDivElement>('#weather-result_location');
+        if (result) {
+            result.textContent = `　${placeName}: ${data.current_weather.temperature}℃`;
+        }
+    } catch (error) {
+        console.log("現在地の天気APIエラー:", error);
+    }
+}
+// JavaScript の geolocation API を使用
+function requestUserLocation() {
+    if (!navigator.geolocation) {
+        alert("現在地情報が取得できません");
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+        (pos) => {
+            const lat = pos.coords.latitude;
+            const lon = pos.coords.longitude;
+            console.log("現在地：", lat, lon);
+
+            getWeatherByLocation(lat, lon);
+        },
+        (err) => {
+            console.log("位置情報取得エラー:", err);
+            alert("位置情報の取得が許可されませんでした");
+        }
+    );
+}
+
+
+interface GeocodingResult {
+    name: string;     // 都市名・地名
+    admin1?: string;  // 都道府県レベル（あれば）
+    country?: string;
+    latitude: number;
+    longitude: number;
+}
+interface GeocodingResponse {
+    results?: GeocodingResult[];
+}
+
+// 地名（1箇所）を検索して表示
+// async function searchPlaceAndGetWeather(placeName: string) {
+//     const resultDiv = document.querySelector<HTMLDivElement>("#place-weather-result");
+
+//     if (!placeName.trim()) {
+//         if (resultDiv) {
+//             resultDiv.textContent = "地名を入力してください。";
+//         }
+//         return;
+//     }
+
+//     try {
+//         // 1. 地名から緯度経度を取得
+//         const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
+//             placeName
+//         )}&language=ja&count=5`;
+
+//         const geoResponse = await fetch(geoUrl);
+//         if (!geoResponse.ok) {
+//             throw new Error(`ジオコーディングAPIエラー: ${geoResponse.status}`);
+//         }
+
+//         const geoData: GeocodingResponse = await geoResponse.json();
+
+//         if (!geoData.results || geoData.results.length === 0) {
+//             if (resultDiv) {
+//                 resultDiv.textContent = `「${placeName}」が見つかりませんでした。`;
+//             }
+//             return;
+//         }
+
+//         // 最初の候補を採用
+//         const place = geoData.results[0];
+//         const lat = place.latitude;
+//         const lon = place.longitude;
+
+//         console.log("ジオコーディング結果:", place);
+
+//         // 2.緯度経度から天気を取得
+//         const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
+
+//         const weatherResponse = await fetch(weatherUrl);
+//         if (!weatherResponse.ok) {
+//             throw new Error(`天気APIエラー: ${weatherResponse.status}`);
+//         }
+
+//         const weatherData = await weatherResponse.json();
+//         console.log("任意地点の天気API結果:", weatherData);
+
+//         // 表示用の地名
+//         const displayNameParts = [
+//             place.admin1 ?? "",
+//             place.name,
+//             // place.country ? `(${place.country})` : "",
+//         ].filter(Boolean);
+
+//         const displayName = displayNameParts.join(" ");
+
+//         if (resultDiv) {
+//             resultDiv.textContent = `${displayName}の現在の気温: ${weatherData.current_weather.temperature}℃`;
+//         }
+//     } catch (error) {
+//         console.error(error);
+//         if (resultDiv) {
+//             resultDiv.textContent = "天気の取得中にエラーが発生しました。";
+//         }
+//     }
+// }
+
+// 地名（重複箇所）を検索して表示
+async function searchPlace(placeName: string) {
+    const list = document.querySelector<HTMLUListElement>("#place-candidates");
+    const resultDiv = document.querySelector<HTMLDivElement>("#place-weather-result");
+
+    if (!list || !resultDiv) return;
+    list.innerHTML = "";
+    resultDiv.textContent = "";
+
+    const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
+        placeName
+    )}&language=ja&count=5`;
+
+    const geoResponse = await fetch(geoUrl);
+    const geoData: GeocodingResponse = await geoResponse.json();
+
+    if (!geoData.results || geoData.results.length === 0) {
+        resultDiv.textContent = `「${placeName}」 が見つかりませんでした。`;
+        return;
+    }
+
+    geoData.results.forEach((place, index) => {
+        const li = document.createElement("li");
+        li.textContent = [
+            place.name,
+            place.admin1 ? `(${place.admin1})` : "",
+        ]
+            .filter(Boolean)
+            .join("");
+
+        li.style.cursor = "pointer";
+        li.addEventListener("click", () => {
+            getWeatherForPlace(place);
+        });
+
+        list.appendChild(li);
+    });
+}
+
+async function getWeatherForPlace(place: GeocodingResult) {
+    const resultDiv = document.querySelector<HTMLDivElement>("#place-weather-result");
+    if (!resultDiv) return;
+
+    const lat = place.latitude;
+    const lon = place.longitude;
+
+    const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`;
+
+    const weatherResponse = await fetch(weatherUrl);
+    const weatherData = await weatherResponse.json();
+
+    const displayNameParts = [
+        place.name,
+        place.admin1 ? `(${place.admin1})` : "",
+    ].filter(Boolean);
+
+    const displayName = displayNameParts.join("");
+
+    resultDiv.textContent = `${displayName} の現在の気温: ${weatherData.current_weather.temperature}℃`;
+}
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    getWeatherTokyo();
+    // requestUserLocation();
+
+    // 地名検索用
+    const input = document.querySelector<HTMLInputElement>("#place-input");
+    const button = document.querySelector<HTMLButtonElement>("#place-search-button");
+
+    if (button && input) {
+        button.addEventListener("click", () => {
+            searchPlace(input.value);
+        });
+
+        input.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                searchPlace(input.value);
+            }
+        });
+    }
+});

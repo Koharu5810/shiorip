@@ -19,7 +19,7 @@
         <h2>任意の場所の天気を調べる</h2>
 
         <div>
-            <label for="place-input">地名（例：横浜、札幌、大阪）</label>
+            <label for="place-input">地名</label>
             <input id="place-input" type="text" placeholder="地名を入力" />
 
             <button id="place-search-button" type="button">
@@ -27,12 +27,13 @@
             </button>
         </div>
 
-        <div id="place-weather-result" style="margin-top: 30px">
+        <ul id="place-candidates" style="margin-top: 30px"></ul>
+        <div id="place-weather-result">
             ここに結果が表示されます
         </div>
     </div>
 
-    @vite(['resources/css/app.css', 'resources/js/app.ts'])
+    @vite(['resources/css/weather.css', 'resources/js/weather.ts'])
 
 </body>
 </html>
