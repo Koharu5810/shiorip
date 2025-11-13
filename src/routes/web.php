@@ -18,3 +18,6 @@ Route::get('/js-test', function () {
     return view('js-test.js-test');
 });
 Route::get('/practice', fn () => view('js-test.practice'));
+Route::get('/ts-test', function () {
+    return view('layouts.app');
+});

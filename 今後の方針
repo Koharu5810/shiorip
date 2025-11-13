@@ -1,0 +1,44 @@
+🔜 将来フロント分離したくなった時の流れ（これが綺麗）
+
+あなたの言う通り：
+
+1. src/ を backend/ にリネームするだけでOK！
+
+最終的にはこんな構成になる：
+  shiorip-app/
+    docker/
+    backend/      ← 旧 src。Laravel の API サーバー
+      artisan
+      app/
+      resources/
+      routes/
+      ...
+    frontend/     ← React or Next.js (Vite, TS, etc)
+
+これが今のモダン構成の “ほぼ標準”。
+バックエンドは API だけ提供し、フロントが完全に独立して動く構成。
+
+
+
+💡 リネームして分離するタイミングはいつ？
+
+この2つのうち、どちらかに当てはまったら分離してOK：
+
+✔ API を安定的に叩けるようになった
+（Laravel側のルーティング、認証、CORS など理解できた段階）
+
+✔ React の構造が見え始めた
+（React Router / 状態管理 / UI作り を学んで “あ、これ分離した方がいいな” とわかる段階）
+
+最初は Laravel内にReactを入れて、小さく動かす のがベスト。
+その後 フロント単体で起動 → API を叩く練習 に移行。
+
+
+
+🧩 ディレクトリ名を backend/ に変えた後の注意点
+
+docker-compose の volumes にある src/ を backend/ に変更
+nginx コンテナの設定（rootパス）も backend/public に変更
+GitHub Actions などを使うならワークディレクトリも変更可能
+
+作業はあるけど、構造としてはとても自然。
