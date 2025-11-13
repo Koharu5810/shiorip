@@ -11,8 +11,8 @@
     {{-- <button id="hello-button" type="button">TSテスト</button>
     <div id="hello-result"></div> --}}
 
-    <div>現在の気温</div>
-    <div id="weather-result">　天気を取得中...</div>
+    {{-- <div>現在の気温</div> --}}
+    {{-- <div id="weather-result">　天気を取得中...</div> --}}
     {{-- <div id="weather-result_location">　現在地の気温を取得中...</div> --}}
 
     <div class="weather-search" style="margin-top: 100px">
