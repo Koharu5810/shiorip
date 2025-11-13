@@ -174,17 +174,32 @@ async function searchPlace(placeName: string) {
 
     const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
         placeName
-    )}&language=ja&count=5`;
+    )}&language=ja&count=10`;
 
     const geoResponse = await fetch(geoUrl);
     const geoData: GeocodingResponse = await geoResponse.json();
+
+    console.log("ジオコーディング結果:", geoData.results);
 
     if (!geoData.results || geoData.results.length === 0) {
         resultDiv.textContent = `「${placeName}」 が見つかりませんでした。`;
         return;
     }
 
-    geoData.results.forEach((place, index) => {
+    // 重複除外
+    const uniqueResults: GeocodingResult[] = [];
+    const seenKeys = new Set<string>();
+
+    for (const place of geoData.results) {
+        const key = `${placeName}_${place.admin1 ?? ""}_${place.country ?? ""}`;
+        if (seenKeys.has(key)) {
+            continue;  // すでに同じ候補があるのでスキップ
+        }
+        seenKeys.add(key);
+        uniqueResults.push(place);
+    }
+
+    uniqueResults.forEach((place) => {
         const li = document.createElement("li");
         li.textContent = [
             place.name,
@@ -193,7 +208,6 @@ async function searchPlace(placeName: string) {
             .filter(Boolean)
             .join("");
 
-        li.style.cursor = "pointer";
         li.addEventListener("click", () => {
             getWeatherForPlace(place);
         });

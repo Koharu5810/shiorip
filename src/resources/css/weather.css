@@ -1,0 +1,10 @@
+#place-candidates li {
+    width: 300px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#place-candidates li:hover {
+    background-color: #f0f0f0; /* 好きな色に変える */
+}

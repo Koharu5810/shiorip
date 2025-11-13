@@ -19,5 +19,5 @@ Route::get('/js-test', function () {
 });
 Route::get('/practice', fn () => view('js-test.practice'));
 Route::get('/ts-test', function () {
-    return view('layouts.app');
+    return view('js-test.weather');
 });
