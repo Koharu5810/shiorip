@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('budgets', function (Blueprint $table) {
             $table->id();
             $table->foreignId('spot_id')->constrained()->cascadeOnDelete();
-            $table->boolean('is_free')->default(false); // 無料フラグ（trueならmin/maxはnull）
-            $table->integer('min_price')->nullable();   // 下限金額
-            $table->integer('max_price')->nullable();   // 上限金額
-            $table->string('note')->nullable();         // 備考（例：別途拝観料あり）
+            $table->enum('price_type', [
+                'free', 'paid', 'paid_seasonal', 'unknown',
+            ])->default('unknown');                        // 料金種別
+            $table->integer('base_price')->nullable();     // 目安料金（予算表示？）
+            $table->string('price_range', 20)->nullable(); // 料金ラベル（0-500 / 501-1000 / 1001-2000 / 2001-plus）
+            $table->string('note')->nullable();            // 備考（例：別途拝観料あり）
             $table->timestamps();
         });
     }
