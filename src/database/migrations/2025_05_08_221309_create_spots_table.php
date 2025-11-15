@@ -13,16 +13,24 @@ return new class extends Migration
     {
         Schema::create('spots', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 150);                    // 観光地名
-            $table->string('category', 100);                // カテゴリ
-            $table->text('description');                    // 説明文
-            $table->integer('duration_minutes');            // 所要時間（分）
-            $table->string('closed_days', 255)->nullable(); // 休業日（例：毎週月曜、冬期閉鎖、不定休）
-            $table->string('opening_hours')->nullable();    // 営業開始時間
-            $table->string('closing_hours')->nullable();    // 営業終了時間
-            $table->text('access');                         // 交通情報
+            $table->string('name', 150);                      // 観光地名
+            $table->string('category', 100);                  // カテゴリ
+            $table->text('description');                      // 説明文
+
+            $table->enum('season_type', ['all_year', 'seasonal', 'unknown'])->default('unknown');  // 営業月（通年、季節営業、不明）
+            $table->string('season_months', 50)->nullable();  // 季節営業の対応
+            $table->enum('closed_type', ['none', 'weekly', 'irregular'])->default('none');     // 休業日（無休、毎週○曜、不定休）
+            $table->string('closed_weekdays', 20)->nullable();// mon, wedなど
+            $table->text('business_notes')->nullable();       // 営業日についての備考
+
+            $table->time('default_opening_time')->nullable(); // 通年時営業開始時間
+            $table->time('default_closing_time')->nullable(); // 通年時営業終了時間
+
+            $table->integer('duration_minutes');              // 所要時間（分）
+            $table->text('access');                           // 交通情報
             $table->string('website')->nullable();
             $table->string('phone', 20)->nullable();
+
             $table->timestamps();
         });
     }
