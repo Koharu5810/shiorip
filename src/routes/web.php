@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\WeatherController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,3 +22,5 @@ Route::get('/practice', fn () => view('js-test.practice'));
 Route::get('/ts-test', function () {
     return view('js-test.weather');
 });
+// JSON表示用
+Route::get('/test-areas', [WeatherController::class, 'areas']);

@@ -410,3 +410,14 @@ document.addEventListener("DOMContentLoaded", () => {
     //     });
     // }
 });
+
+// 都道府県エリアjson表示用
+fetch("/test-areas")
+    .then((res) => res.json())
+    .then((data) => {
+        console.log("成功！", data);
+
+        // 北海道のエリアを表示してみる
+        console.log("北海道のエリア:", data["北海道"]);
+    })
+    .catch((err) => console.error(err));

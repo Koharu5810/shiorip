@@ -106,4 +106,11 @@ class WeatherController extends Controller
             'data' => $weather,
         ]);
     }
+
+    // 都道府県内エリア表示用
+    public function areas()
+    {
+        return response()->json(config('area'));
+    }
+
 }
